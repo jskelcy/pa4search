@@ -36,6 +36,11 @@ void insertNode(treeRoot *tree,char c) {
     }
 }
 
+void traverse(treeRoot *tree, char c){
+    int index = hash(c);
+    tree->ptr = tree->ptr->branches[index];
+}
+
 void freeBranches(Node *curr) {
     int i;
     if (curr->branches != NULL) {

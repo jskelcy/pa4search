@@ -19,9 +19,11 @@ typedef struct Node{
     struct Node** branches;
     struct FreqList *freak;
     char isWord;
+    int count;
 } Node;
 
 treeRoot *treeInit();
+void traverse(treeRoot *tree,char c);
 void insertNode(treeRoot *tree, char c);
 void freeTree(treeRoot *tree);
 char *append(char *s, char c);
