@@ -3,11 +3,35 @@
 #include <unistd.h>
 #include "prefixTree.h"
 
+
+void andPrint(treeRoot *printTree, char *printString, int querySize,int printStringPtr){
+    printTree->ptr = printTree->root;
+    Node *nextNode;
+    if ((printTree->ptr->isWord) && (printTree->ptr->count == querySize)){
+        printString[printStringPtr] = printTree->ptr->letter;
+        printString[printStringPtr+1]= '\0';
+        printf("%s ",printString);
+        printStringPtr = 0;
+        printTree->ptr = printTree->root;
+    }
+    for (int i=0; i<37; i++){
+        nextNode = printTree->ptr->branches[i];
+        if (nextNode != NULL){
+        printString[printStringPtr]=nextNode -> letter;
+        printStringPtr++;
+        printTree->ptr = nextNode;
+        andPrint(printTree, printString, querySize, printStringPtr);
+        }
+    }
+}
+
+
 int main(int argc, char *argv[]){
-    int len =0;
+    int len =0, k;
     int searchFlag;
     char *ch;
     char c;
+    int longLength =0;
     int querySize = 1;
     char *searchQuery = NULL;
 
@@ -27,7 +51,6 @@ int main(int argc, char *argv[]){
             searchQuery[len++] = c;
             }
             searchQuery[len] = '\n';
-
             //sets flag for type of query
             if(searchQuery[0]=='a'){
                 searchFlag=1;
@@ -38,17 +61,19 @@ int main(int argc, char *argv[]){
             for(int i=1; searchQuery[i]!='\n';i++){
                 if(searchQuery[i]= ' '){
                     querySize++;
-                    void *treeBuilder = getFileNames(WordTree);
-
+                    FreqNode *treeBuilder = getFileNames(WordTreei->ptr);
                     while(treeBuilder!= NULL){
-                        for (int k = 0; treeBuilder->fileName[k] != '\0'){
+                        for (k = 0; treeBuilder->fileName[k] != '\0';k++){
                             insertNode(fileTree,treeBuilder->fileName[k]);
                         }
+                        if(k > longLength){
+                            longLength = k;
+                        }
                         fileTree->ptr->count++;
-                        fileTree->ptr = fileTree->root
+                        fileTree->ptr->isWord = 1;
+                        fileTree->ptr = fileTree->root;
                         treeBuilder = treeBuilder->next;
                     }
-
                     WordTree->ptr = WordTree->root;
                 }else{
                     traverse(WordTree,searchQuery[i]);
@@ -56,6 +81,12 @@ int main(int argc, char *argv[]){
             }
         }else{
             printf("bad input");
+        }
+        char *printString = (char *) malloc(longLength * sizeof(char));
+        if(searchFlag==1){
+            andPrint(fileTree,printString,querySize,0);
+        }else{
+            orPrint(fileTree);
         }
     printf("please enter a search query");
     }
