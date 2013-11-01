@@ -49,6 +49,13 @@ void orPrint(treeRoot *printTree, char *printString,int printStringPtr){
         }
     }
 }
+/*this method is probs does not free the pointer in each node*/
+void freeTree(treeRoot *freeTree){
+    if (prefixTree->ptr->branches == NULL){
+        free(prefixTree->ptr);
+    }
+}
+
 int main(int argc, char *argv[]){
     int len =0, k;
     int searchFlag;
@@ -66,21 +73,23 @@ int main(int argc, char *argv[]){
     printf("please enter a search query");
 
     while( (c = getchar()) != 'q'){
+        /*initialize the file tree*/
         treeRoot *fileTree = treeInit();
         if(c =='s'){
-            //loads query into memory
+            /*loads query into memory*/
             while( (c = getchar()) != '\n'){
             searchQuery = realloc(searchQuery, len+1);
             searchQuery[len++] = c;
             }
             searchQuery[len] = '\n';
-            //sets flag for type of query
+            /*sets flag for type of query*/
             if(searchQuery[0]=='a'){
                 searchFlag=1;
             }
             if(searchQuery[0]=='o'){
                 searchFlag=0;
             }
+            /*builing the linked list of possible files names from WordTree*/
             for(int i=1; searchQuery[i]!='\n';i++){
                 if(searchQuery[i]= ' '){
                     querySize++;
@@ -111,7 +120,10 @@ int main(int argc, char *argv[]){
         }else{
             orPrint(fileTree, printString, 0);
         }
+        free(printString);
+        freeTree(fileTree);
     printf("please enter a search query");
     }
+
     return 0;
 }
