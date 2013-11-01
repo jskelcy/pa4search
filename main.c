@@ -14,18 +14,41 @@ void andPrint(treeRoot *printTree, char *printString, int querySize,int printStr
         printStringPtr = 0;
         printTree->ptr = printTree->root;
     }
-    for (int i=0; i<37; i++){
-        nextNode = printTree->ptr->branches[i];
-        if (nextNode != NULL){
-        printString[printStringPtr]=nextNode -> letter;
-        printStringPtr++;
-        printTree->ptr = nextNode;
-        andPrint(printTree, printString, querySize, printStringPtr);
+    if (printTree->ptr->branches != NULL){
+        for (int i=0; i<37; i++){
+            nextNode = printTree->ptr->branches[i];
+            if (nextNode != NULL){
+            printString[printStringPtr]=nextNode -> letter;
+            printStringPtr++;
+            printTree->ptr = nextNode;
+            andPrint(printTree, printString, querySize, printStringPtr);
+            }
         }
     }
 }
 
-
+void orPrint(treeRoot *printTree, char *printString,int printStringPtr){
+    printTree->ptr = printTree->root;
+    Node *nextNode;
+    if ((printTree->ptr->isWord) && (printTree->ptr->count > 1)){
+        printString[printStringPtr] = printTree->ptr->letter;
+        printString[printStringPtr+1]= '\0';
+        printf("%s ",printString);
+        printStringPtr = 0;
+        printTree->ptr = printTree->root;
+    }
+    if (prefixTree->ptr->branches != NULL){
+        for (int i=0; i<37; i++){
+            nextNode = printTree->ptr->branches[i];
+            if (nextNode != NULL){
+            printString[printStringPtr]=nextNode -> letter;
+            printStringPtr++;
+            printTree->ptr = nextNode;
+            orPrint(printTree, printString, printStringPtr);
+            }
+        }
+    }
+}
 int main(int argc, char *argv[]){
     int len =0, k;
     int searchFlag;
@@ -86,7 +109,7 @@ int main(int argc, char *argv[]){
         if(searchFlag==1){
             andPrint(fileTree,printString,querySize,0);
         }else{
-            orPrint(fileTree);
+            orPrint(fileTree, printString, 0);
         }
     printf("please enter a search query");
     }
