@@ -92,7 +92,7 @@ char *append(char *s, char c) {
     return copy;
 }
 
-void printTree(treeRoot *tree, char *currString, FILE *openFile, int depth) {
+/*void printTree(treeRoot *tree, char *currString, FILE *openFile, int depth) {
     Node *curr = tree->ptr;
     int i;
     if (curr->isWord == 1 && depth != 0) {
@@ -105,7 +105,6 @@ void printTree(treeRoot *tree, char *currString, FILE *openFile, int depth) {
         currString[depth + 1] = '\0';
         for (i = 0; i < 36; i++) {
             if (curr->branches[i] != NULL) {
-                /*char *newWord = append(currString, curr->branches[i]->letter);*/
                 currString[depth] = curr->branches[i]->letter;
                 tree->ptr = curr->branches[i];
                 printTree(tree, currString, openFile, depth + 1);
@@ -114,4 +113,4 @@ void printTree(treeRoot *tree, char *currString, FILE *openFile, int depth) {
         }
         currString[depth] = '\0';
     }
-}
+}*/

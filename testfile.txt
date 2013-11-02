@@ -1,0 +1,19 @@
+<list> a
+
+./testdir/testdir2/text3.txt 1
+
+</list>
+
+<list> antartica
+
+./testdir/text2.txt 1
+
+</list>
+
+<list> ass
+
+./testdir/text1.txt 10 ./testdir/text4.txt 10
+
+</list>
+
+

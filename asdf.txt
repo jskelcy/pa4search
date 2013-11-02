@@ -1,0 +1,84 @@
+<list> cool
+
+./testdir/text1.txt 10 ./testdir/text4.txt 10 ./testdir/text2.txt 1
+
+</list>
+
+<list> friend
+
+./testdir/testdir2/text3.txt 1
+
+</list>
+
+<list> hello
+
+./testdir/text1.txt 2 ./testdir/text4.txt 1 ./testdir/testdir2/text3.txt 1
+
+</list>
+
+<list> in
+
+./testdir/text2.txt 1
+
+</list>
+
+<list> is
+
+./testdir/text1.txt 10 ./testdir/text4.txt 10 ./testdir/text2.txt 1 ./testdir/testdir2/text3.txt 1
+
+</list>
+
+<list> it
+
+./testdir/text2.txt 1
+
+</list>
+
+<list> one
+
+./testdir/text2.txt 1
+
+</list>
+
+<list> shit
+
+./testdir/text1.txt 10 ./testdir/text4.txt 10
+
+</list>
+
+<list> some
+
+./testdir/text1.txt 10 ./testdir/text4.txt 10
+
+</list>
+
+<list> test
+
+./testdir/text2.txt 1
+
+</list>
+
+<list> thing
+
+./testdir/testdir2/text3.txt 1
+
+</list>
+
+<list> this
+
+./testdir/text1.txt 10 ./testdir/text4.txt 10 ./testdir/text2.txt 1 ./testdir/testdir2/text3.txt 1
+
+</list>
+
+<list> works
+
+./testdir/text2.txt 1
+
+</list>
+
+<list> world
+
+./testdir/text1.txt 2 ./testdir/text4.txt 1
+
+</list>
+
