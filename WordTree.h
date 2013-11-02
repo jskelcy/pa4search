@@ -16,6 +16,8 @@ struct WORDNODE {
 };
 
 WordTree *WTCreate(char *);
+FreqNode *getFileNames(WordTree *tree, char *);
+void traverse(WordTree *, char);
 void WTDestroy(WordTree *tree);
 
 #endif

@@ -27,6 +27,7 @@ void FLDestroyFLNode(FreqNode *ptr) {
 	if (ptr->next != NULL) {
 		FLDestroyFLNode(ptr->next);
 	}
+	free(ptr->filename);
 	free(ptr);
 }
 

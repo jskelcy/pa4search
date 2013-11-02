@@ -74,6 +74,16 @@ WordTree *WTCreate(char *filename) {
     return tree;
 }
 
+void traverse(WordTree *tree, char c) {
+	traverse(tree->root, c);
+}
+
+FreqNode *getFileNames(WordTree *tree) {
+	FreqNode *list = tree->root->ptr->freak->first;
+	tree->root->ptr = NULL;
+	return list;
+}
+
 void WTDestroy(WordTree *tree) {
     freeTree(tree);
     free(tree);
