@@ -1,3 +1,5 @@
+#include "FreqList.h"
+
 FreqList *FLCreate() {
 	FreqList *list = malloc(1, sizeof(FreqList));
 	list->first = NULL;
