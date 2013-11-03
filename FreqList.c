@@ -1,19 +1,18 @@
-#include "FreqList.h"
-
 FreqList *FLCreate() {
-	FreqList *list = malloc(sizeof(FreqList));
+	FreqList *list = malloc(1, sizeof(FreqList));
 	list->first = NULL;
 	list->last = NULL;
 	return list;
 }
 
-void FLInsert(FreqList *list, char *filename) {
+void FLInsert(FreqList *list, char *filename, int count) {
 	FreqNode *ptr;
 	if (list == NULL || filename == NULL || filename[0] == '\0') {
 		return;
 	}
-	ptr = malloc(sizeof(FreqNode));
+	ptr = malloc(1, sizeof(FreqNode));
 	ptr->filename = filename;
+	ptr->count = count;
 	ptr->next = NULL;
 	if (list->last == NULL) {
 		list->first = ptr;

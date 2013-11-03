@@ -1,6 +1,7 @@
 #ifndef __WordTree_h__
 #define __WordTree_h__
-#include "prefixTree.h"
+#include "FreqList.h"
+#include "prefixTree.c"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -15,8 +16,8 @@ struct WORDNODE {
 };
 
 WordTree *WTCreate(char *);
-FreqNode *getFileNames(WordTree *tree);
-void WTTraverse(WordTree *, char);
+FreqNode *getFileNames(WordTree *tree, char *);
+void traverse(WordTree *, char);
 void WTDestroy(WordTree *tree);
 
 #endif

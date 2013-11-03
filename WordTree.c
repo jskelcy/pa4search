@@ -1,9 +1,7 @@
-#include "WordTree.h"
-
 WordTree *WTCreate(char *filename) {
     FILE *fp = fopen(filename, "r");
     WordTree *tree;
-    struct WORDNODE *root = NULL, *curr = NULL, *ptr, *next;
+    WORDNODE *root, *curr, *ptr, *next;
     char c;
     if (fp == NULL) {
         fclose(fp);
@@ -11,71 +9,63 @@ WordTree *WTCreate(char *filename) {
     }
     tree = malloc(sizeof(WordTree));
     tree->root = treeInit();
-	puts("STEP 1");
+    tree->root->freak = FLCreate();
     while ((c = fgetc(fp)) != EOF) {
         if (c == '<') {
-            int length = 0, valid = 1, count = 0;
+            int length = 0, state, count;
             char *filename;
             /* get the next word */
-			puts("WORD:");
             while ((c = fgetc(fp)) != '>');
             fgetc(fp);
             while ((c = fgetc(fp)) != '\n') {
-				printf("%c", c);
                 insertNode(tree->root, c);
             }
             fgetc(fp);
-			printf("\n");
-    		tree->root->ptr->freak = FLCreate();
             /* start reading the filenames */
             while ((c = fgetc(fp)) != '<') {
-				puts("READCHAR");
                 if (c == ' ' || c == '\n') {
+                    int i;
                     if (length != 0) {
-                        if (valid) {
-                    		int i;
+                        if (state == 0) {
                             /* create filename */
                             filename = malloc((length + 1) * sizeof(char));
                             ptr = root;
                             for (i = 0; i < length; i++) {
                                 filename[i] = ptr->c;
-								printf("asdfaf: %c\n", ptr->c);
                                 ptr = ptr->next;
                             }
                             filename[length] = '\0';
-                            FLInsert(tree->root->ptr->freak, filename);
-							printf("FILENAME: %s, %d\n", filename, length);
-							printf("INSERTED: %s\n", tree->root->ptr->freak->last->filename);
+                        } else {
+                            /* create count and insert */
+                            count = 0;
+                            for (ptr = root; ptr != NULL; ptr = ptr->next) {
+                                count *= 10;
+                                count += (ptr->c) - '0';
+                            }
+                            FLInsert(tree->root->freak, filename, count);
                         }
-                        valid ^= 1;
+                        state ^= 1;
                         length = 0;
                         curr = root;
                     }
                 } else {
                     /* build the string list */
-					if (valid) {
-						printf("BUILD STRING LIST: %c\n", c);
-					}
-                    if (curr == NULL) {
-                        root = malloc(sizeof(struct WORDNODE));
+                    if (root == NULL) {
+                        root = malloc(1, sizeof(WORDNODE));
                         curr = root;
                     } else {
-                        if (curr != NULL && curr->next == NULL) {
-                            curr->next = malloc(sizeof(struct WORDNODE));
+                        if (curr->next == NULL) {
+                            curr->next = malloc(1, sizeof(WORDNODE));
                         }
                         curr = curr->next;
                     }
                     curr->c = c;
-					printf("%lx\n", (long)curr);
                     length++;
                 }
             }
             while ((c = fgetc(fp)) != '>');
-			tree->root->ptr = tree->root->root;
         }
     }
-	/* garbage collect */
-	puts("GARBAGE COLLECT");
     fclose(fp);
     for (ptr = root; ptr != NULL; ptr = next) {
         next = ptr->next;
@@ -84,7 +74,7 @@ WordTree *WTCreate(char *filename) {
     return tree;
 }
 
-void WTTraverse(WordTree *tree, char c) {
+void traverse(WordTree *tree, char c) {
 	traverse(tree->root, c);
 }
 
@@ -95,6 +85,6 @@ FreqNode *getFileNames(WordTree *tree) {
 }
 
 void WTDestroy(WordTree *tree) {
-    freeTree(tree->root);
+    freeTree(tree);
     free(tree);
 }

@@ -7,11 +7,7 @@ int hash(char c) {
         return (c - 'a' + 10);
     } else if ('A' <= c && c <= 'Z') {
         return (c - 'A' + 10);
-    } else if (c == '/') {
-        return 36;
-    }else if(c == '.'){
-        return 37;
-    }else{
+    } else {
         return -1;
     }
 }
@@ -29,7 +25,7 @@ void insertNode(treeRoot *tree,char c) {
         return;
     }
     if (tree->ptr->branches == NULL) {
-        tree->ptr->branches = (Node **) calloc(38, sizeof(Node*));
+        tree->ptr->branches = (Node **) calloc(36, sizeof(Node*));
     }
     if (tree->ptr->branches[index] == NULL) {
         tree->ptr->branches[index] = (Node *) calloc(1, sizeof(Node));
@@ -48,7 +44,7 @@ void traverse(treeRoot *tree, char c){
 void freeBranches(Node *curr) {
     int i;
     if (curr->branches != NULL) {
-        for (i = 0; i < 38; i++) {
+        for (i = 0; i < 36; i++) {
             if (curr->branches[i] != NULL) {
                 freeBranches(curr->branches[i]);
             }
@@ -96,7 +92,7 @@ char *append(char *s, char c) {
     return copy;
 }
 
-/*void printTree(treeRoot *tree, char *currString, FILE *openFile, int depth) {
+void printTree(treeRoot *tree, char *currString, FILE *openFile, int depth) {
     Node *curr = tree->ptr;
     int i;
     if (curr->isWord == 1 && depth != 0) {
@@ -109,6 +105,7 @@ char *append(char *s, char c) {
         currString[depth + 1] = '\0';
         for (i = 0; i < 36; i++) {
             if (curr->branches[i] != NULL) {
+                /*char *newWord = append(currString, curr->branches[i]->letter);*/
                 currString[depth] = curr->branches[i]->letter;
                 tree->ptr = curr->branches[i];
                 printTree(tree, currString, openFile, depth + 1);
@@ -117,4 +114,4 @@ char *append(char *s, char c) {
         }
         currString[depth] = '\0';
     }
-}*/
+}

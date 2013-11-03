@@ -1,8 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
-#include "FreqList.h"
 
 typedef struct FilenameNode {
 	char *filename;
@@ -29,4 +27,4 @@ void traverse(treeRoot *tree,char c);
 void insertNode(treeRoot *tree, char c);
 void freeTree(treeRoot *tree);
 char *append(char *s, char c);
-/*void printTree(treeRoot *tree, char *currString, FILE *openFile, int depth);*/
+void printTree(treeRoot *tree, char *currString, FILE *openFile, int depth);
