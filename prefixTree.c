@@ -25,7 +25,7 @@ void insertNode(treeRoot *tree,char c) {
         return;
     }
     if (tree->ptr->branches == NULL) {
-        tree->ptr->branches = (Node **) calloc(36, sizeof(Node*));
+        tree->ptr->branches = (Node **) calloc(38, sizeof(Node*));
     }
     if (tree->ptr->branches[index] == NULL) {
         tree->ptr->branches[index] = (Node *) calloc(1, sizeof(Node));
@@ -44,7 +44,7 @@ void traverse(treeRoot *tree, char c){
 void freeBranches(Node *curr) {
     int i;
     if (curr->branches != NULL) {
-        for (i = 0; i < 36; i++) {
+        for (i = 0; i < 38; i++) {
             if (curr->branches[i] != NULL) {
                 freeBranches(curr->branches[i]);
             }
