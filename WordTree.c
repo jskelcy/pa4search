@@ -1,32 +1,37 @@
+#include "WordTree.h"
+
 WordTree *WTCreate(char *filename) {
     FILE *fp = fopen(filename, "r");
     WordTree *tree;
-    WORDNODE *root, *curr, *ptr, *next;
+	struct WORDNODE *root = NULL, *curr = NULL, *ptr, *next;
     char c;
+	int i;
     if (fp == NULL) {
         fclose(fp);
         return NULL;
     }
     tree = malloc(sizeof(WordTree));
     tree->root = treeInit();
-    tree->root->freak = FLCreate();
+    tree->root->ptr->freak = FLCreate();
     while ((c = fgetc(fp)) != EOF) {
         if (c == '<') {
-            int length = 0, state, count;
+            int length = 0, valid = 1;
             char *filename;
             /* get the next word */
             while ((c = fgetc(fp)) != '>');
             fgetc(fp);
+			printf("Word: ");
             while ((c = fgetc(fp)) != '\n') {
                 insertNode(tree->root, c);
+				printf("%c", c);
             }
+			printf("\n");
             fgetc(fp);
             /* start reading the filenames */
             while ((c = fgetc(fp)) != '<') {
                 if (c == ' ' || c == '\n') {
-                    int i;
                     if (length != 0) {
-                        if (state == 0) {
+                        if (valid) {
                             /* create filename */
                             filename = malloc((length + 1) * sizeof(char));
                             ptr = root;
@@ -35,31 +40,26 @@ WordTree *WTCreate(char *filename) {
                                 ptr = ptr->next;
                             }
                             filename[length] = '\0';
-                        } else {
-                            /* create count and insert */
-                            count = 0;
-                            for (ptr = root; ptr != NULL; ptr = ptr->next) {
-                                count *= 10;
-                                count += (ptr->c) - '0';
-                            }
-                            FLInsert(tree->root->freak, filename, count);
+                            FLInsert(tree->root->ptr->freak, filename);
+							printf("Inserted: %s\n", filename);
                         }
-                        state ^= 1;
+                        valid ^= 1;
                         length = 0;
                         curr = root;
                     }
                 } else {
                     /* build the string list */
                     if (root == NULL) {
-                        root = malloc(1, sizeof(WORDNODE));
+                        root = malloc(sizeof(struct WORDNODE));
                         curr = root;
+                    	curr->c = c;
                     } else {
-                        if (curr->next == NULL) {
-                            curr->next = malloc(1, sizeof(WORDNODE));
-                        }
-                        curr = curr->next;
-                    }
-                    curr->c = c;
+	                    if (curr->next == NULL) {
+    	                	curr->next = malloc(sizeof(struct WORDNODE));
+        	            }
+						curr->c = c;
+                    	curr = curr->next;
+					}
                     length++;
                 }
             }
@@ -74,7 +74,7 @@ WordTree *WTCreate(char *filename) {
     return tree;
 }
 
-void traverse(WordTree *tree, char c) {
+void WTTraverse(WordTree *tree, char c) {
 	traverse(tree->root, c);
 }
 
@@ -85,6 +85,6 @@ FreqNode *getFileNames(WordTree *tree) {
 }
 
 void WTDestroy(WordTree *tree) {
-    freeTree(tree);
+    freeTree(tree->root);
     free(tree);
 }

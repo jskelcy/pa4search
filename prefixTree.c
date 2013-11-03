@@ -75,14 +75,14 @@ void freeTree(treeRoot *tree) {
 
 char *append(char *s, char c) {
     char *copy;
-    int i;
+    int i, length;
     if(s == NULL){
         copy = (char *) malloc(sizeof(char)*2);
         copy[0]= c;
         copy[1]= '\0';
         return copy;
     }
-    int length = strlen(s);
+    length = strlen(s);
     copy = (char *)malloc(length+2);
     for(i=0; i<length; i++){
         copy[i]=s[i];
@@ -90,28 +90,4 @@ char *append(char *s, char c) {
     copy[length]= c;
     copy[length + 1] ='\0';
     return copy;
-}
-
-void printTree(treeRoot *tree, char *currString, FILE *openFile, int depth) {
-    Node *curr = tree->ptr;
-    int i;
-    if (curr->isWord == 1 && depth != 0) {
-        fprintf(openFile,"<list> ");
-        fprintf(openFile, "%s\n", currString);
-        FLPrint(curr->freak, openFile);
-        fprintf(openFile,"</list>\n");
-    }
-    if (curr->branches != NULL) {
-        currString[depth + 1] = '\0';
-        for (i = 0; i < 36; i++) {
-            if (curr->branches[i] != NULL) {
-                /*char *newWord = append(currString, curr->branches[i]->letter);*/
-                currString[depth] = curr->branches[i]->letter;
-                tree->ptr = curr->branches[i];
-                printTree(tree, currString, openFile, depth + 1);
-                tree->ptr = curr;
-            }
-        }
-        currString[depth] = '\0';
-    }
 }

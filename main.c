@@ -1,12 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "prefixTree.h"
+#include "WordTree.h"
 
 
 void printFileNameTree(treeRoot *printTree, char *printString, int querySize, int printStringPtr){
-	printTree->ptr = printTree->root;
 	Node *nextNode;
+	int i;
+	printTree->ptr = printTree->root;
 	if ((printTree->ptr->isWord) && ((querySize > 0 && printTree->ptr->count == querySize) || (printTree->ptr->count > 0))){
 		printString[printStringPtr] = printTree->ptr->letter;
 		printString[printStringPtr+1]= '\0';
@@ -15,33 +16,35 @@ void printFileNameTree(treeRoot *printTree, char *printString, int querySize, in
 		printTree->ptr = printTree->root;
 	}
 	if (printTree->ptr->branches != NULL){
-		for (int i=0; i<37; i++){
+		for (i=0; i<37; i++){
 			nextNode = printTree->ptr->branches[i];
 			if (nextNode != NULL){
 				printString[printStringPtr]=nextNode -> letter;
 				printStringPtr++;
 				printTree->ptr = nextNode;
-				andPrint(printTree, printString, querySize, printStringPtr);
+				printFileNameTree(printTree, printString, querySize, printStringPtr);
 			}
 		}
 	}
 }
 
 /*this method is probs does not free the pointer in each node*/
-void freeTree(treeRoot *freeTree){
-	if (prefixTree->ptr->branches == NULL){
-		free(prefixTree->ptr);
+/*void freeTree(treeRoot *tree){
+	if (tree->ptr->branches == NULL){
+		free(tree->ptr);
 	}
-}
+}*/
 
 int main(int argc, char *argv[]){
 	int len =0, k;
 	int searchFlag;
-	char *ch;
+	char *printString;
 	char c;
 	int longLength =0;
 	int querySize = 1;
 	char *searchQuery = NULL;
+	WordTree *wordTree;
+	int i;
 
 	if(argc !=2){
 		printf("invalid input");
@@ -49,7 +52,8 @@ int main(int argc, char *argv[]){
 	}
 
 	/* added by Tim */
-	WordTree *wordTree = WTCreate(argv[1]);
+	wordTree = WTCreate(argv[1]);
+	return 0;
 	/**/
 	printf("please enter a search query");
 
@@ -71,13 +75,14 @@ int main(int argc, char *argv[]){
 				searchFlag=0;
 			}
 			/*builing the linked list of possible files names from wordTree*/
-			for(int i=1; searchQuery[i]!='\n';i++){
-				if(searchQuery[i]= ' '){
+			for(i=1; searchQuery[i]!='\n';i++){
+				if(searchQuery[i]== ' '){
+					FreqNode *treeBuilder;
 					querySize++;
-					FreqNode *treeBuilder = getFileNames(wordTree);
+					treeBuilder = getFileNames(wordTree);
 					while(treeBuilder!= NULL){
-						for (k = 0; treeBuilder->fileName[k] != '\0';k++){
-							insertNode(fileTree,treeBuilder->fileName[k]);
+						for (k = 0; treeBuilder->filename[k] != '\0';k++){
+							insertNode(fileTree,treeBuilder->filename[k]);
 						}
 						if(k > longLength){
 							longLength = k;
@@ -87,15 +92,14 @@ int main(int argc, char *argv[]){
 						fileTree->ptr = fileTree->root;
 						treeBuilder = treeBuilder->next;
 					}
-					wordTree->ptr = wordTree->root;
 				}else{
-					traverse(wordTree,searchQuery[i]);
+					WTTraverse(wordTree,searchQuery[i]);
 				}
 			}
 		}else{
 			printf("bad input");
 		}
-		char *printString = (char *) malloc(longLength * sizeof(char));
+		printString = (char *) malloc(longLength * sizeof(char));
 		if(searchFlag != 1){
 			querySize = 0;
 		}
