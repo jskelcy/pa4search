@@ -9,19 +9,13 @@ void printFileNameTree(Node *printPtr, char *printString, int querySize, int pri
 	int i;
 	puts(printString);
 	if ((printPtr->isWord) && ((querySize > 0 && printPtr->count == querySize) || (querySize == 0 && printPtr->count > 0))){
-		puts("whats good");
 		printString[printStringPtr] = printPtr->letter;
 		printString[printStringPtr+1]= '\0';
 		printf("%s\n",printString);
 		printStringPtr = 0;
 	}
 	if (printPtr->branches != NULL){
-		puts("hello1");
 		for (i=0; i<38; i++){
-			printf("address of branch: %lx",(long)&(printPtr->branches[i]));
-			if(nextNode == NULL){
-				printf("NULL\n");
-			}
 			nextNode = printPtr->branches[i];
 			if (nextNode != NULL){
 				puts("hello2");
@@ -88,9 +82,7 @@ int main(int argc, char *argv[]){
 					printf("WordTree ptr: %lx\n", (long)wordTree->root->ptr);
 					while (treeBuilder!= NULL) {
 						for (k = 0; treeBuilder->filename[k] != '\0';k++){
-							printf("instering the node [%c], parent: %lx \n",treeBuilder->filename[k], (long)&(fileTree->ptr));
 							insertNode(fileTree,treeBuilder->filename[k]);
-							printf("this should be differnt than parent: %lx \n", (long)&(fileTree->ptr));
 						}
 						printf("Insert to FilenameTree: %s, %lx", treeBuilder->filename, (long)wordTree->root->ptr);
 						if (k > longLength) {

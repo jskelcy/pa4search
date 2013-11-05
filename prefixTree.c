@@ -8,9 +8,9 @@ int hash(char c) {
     } else if ('A' <= c && c <= 'Z') {
         return (c - 'A' + 10);
     } else if (c == '.') {
-        return 37;
+        return 36;
     } else if (c == '/') {
-		return 38;
+		return 37;
 	} else {
 		return -1;
 	}
@@ -36,7 +36,6 @@ void insertNode(treeRoot *tree,char c) {
         tree->ptr->branches[index] = (Node *) calloc(1, sizeof(Node));
         tree->ptr->branches[index]->letter = tolower(c);
         tree->ptr = tree->ptr->branches[index];
-		printf("[%lx]\n",(long)&(tree->ptr));
     } else {
         tree->ptr = tree->ptr->branches[index];
     }
