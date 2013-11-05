@@ -6,11 +6,11 @@
 
 <list> antartica
 
-./testdir/testdir2/text3.txt
+./testdir/testdir2/text3.txt 7 ./testdir/text2.txt 2
 
 </list>
 
-<list> ass
+<list> bogger
 
 ./testdir/text1.txt 10 ./testdir/text4.txt 10
 

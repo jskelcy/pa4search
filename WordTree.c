@@ -3,13 +3,17 @@
 WordTree *WTCreate(char *filename) {
     FILE *fp = fopen(filename, "r");
     WordTree *tree;
-	struct WORDNODE *root = NULL, *curr = NULL, *ptr, *next;
+	struct WORDNODE *root, *curr, *ptr, *next;
     char c;
 	int i;
     if (fp == NULL) {
         fclose(fp);
         return NULL;
     }
+    root = NULL;
+    curr = NULL;
+    ptr = NULL;
+    next = NULL;
     tree = malloc(sizeof(WordTree));
     tree->root = treeInit();
     while ((c = fgetc(fp)) != EOF) {
@@ -47,12 +51,12 @@ WordTree *WTCreate(char *filename) {
                     }
                 } else {
                     /* build the string list */
-                    if (root == NULL) {
+                    if (curr == NULL) {
                         root = malloc(sizeof(struct WORDNODE));
                         curr = root;
                     }
                     curr->c = c;
-	                if (curr->next == NULL) {
+	                if (curr != NULL && curr->next == NULL) {
     	            	curr->next = malloc(sizeof(struct WORDNODE));
         	        }
                     curr = curr->next;
@@ -68,7 +72,7 @@ WordTree *WTCreate(char *filename) {
         next = ptr->next;
         free(ptr);
     }
-	tree->root->ptr = tree->root->root;
+    tree->root->ptr = tree->root->root;
     return tree;
 }
 

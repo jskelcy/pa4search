@@ -1,0 +1,32 @@
+This is the test plan given the testfile.txt inlcuded the file we handed in
+
+so with 1:
+    query: so a
+    output: ./testdir/testdir2/text3.txt 1
+    passed
+
+
+sa with 1:
+    query: so antartica
+    output: ./testdir/testdir2/text3.txt  ./testdir/text2.txt 
+    passed
+
+so with 2:
+    query: so a anartica
+    output: ./testdir/testdir2/text3.txt ./testdir/text2.txt 
+    passed
+
+sa with 2 (nothing in common):
+    query: sa a bogger
+    output: Nothing
+    passed
+
+sa with 2:
+    query: sa a antartica
+    output: ./testdir/testdir2/text3.txt
+    passed
+
+blank query:
+    query:
+    output: bad input
+    passed

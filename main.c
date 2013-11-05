@@ -48,11 +48,23 @@ int main(int argc, char *argv[]){
     while ((c = getchar()) != 'q') {
         /*initialize the file tree*/
         fileTree = treeInit();
+        if(c != 's'){
+            freeTree(fileTree);
+            fprintf(stderr, "bad input\n");
+            while((c=getchar())!='\n'){}
+            printf("Search query: ");
+            continue;
+        }
         if (c =='s' && ((c = getchar()) == 'a' || c == 'o')) {
             /* get search flag */
             searchFlag = c == 'a';
-            getchar();
-            /* load query (dump IOSTREAM) */
+            if((c=getchar()) != ' ') {
+                fprintf(stderr, "bad input\n");
+                freeTree(fileTree);
+                printf("Search query: ");
+                continue;
+            }
+            /* load querysize (dump IOSTREAM) */
             while ((c = getchar()) != '\n') {
                 searchQuery = realloc(searchQuery, len + 1);
                 searchQuery[len++] = c;
@@ -60,6 +72,14 @@ int main(int argc, char *argv[]){
             searchQuery = realloc(searchQuery, len + 2);
             searchQuery[len++]= ' ';
             searchQuery[len] = '\0';
+            if(strlen(searchQuery)<2){
+                    fprintf(stderr, "bad input\n");
+                    len = 0;
+                    free(searchQuery);
+                    freeTree(fileTree);
+                    printf("Search query: ");
+                    continue;
+                }
             /*builing the linked list of possible files names from wordTree*/
             for (i = 0; searchQuery[i]!='\0'; i++) {
                 if (searchQuery[i]== ' ') {
@@ -94,7 +114,7 @@ int main(int argc, char *argv[]){
             printf("bad input");
         }
         querySize--;
-        printString = (char *) malloc(longLength * sizeof(char));
+        printString = (char *) malloc((longLength+1) * sizeof(char));
         if (searchFlag != 1) {
             querySize = 0;
         }
