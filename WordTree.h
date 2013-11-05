@@ -18,5 +18,6 @@ WordTree *WTCreate(char *);
 FreqNode *getFileNames(WordTree *tree);
 void WTTraverse(WordTree *, char);
 void WTDestroy(WordTree *tree);
+void resetPointer(WordTree *tree);
 
 #endif

@@ -7,9 +7,13 @@ int hash(char c) {
         return (c - 'a' + 10);
     } else if ('A' <= c && c <= 'Z') {
         return (c - 'A' + 10);
-    } else {
-        return -1;
-    }
+    } else if (c == '.') {
+        return 37;
+    } else if (c == '/') {
+		return 38;
+	} else {
+		return -1;
+	}
 }
 
 treeRoot* treeInit() {
@@ -22,15 +26,17 @@ treeRoot* treeInit() {
 void insertNode(treeRoot *tree,char c) {
     int index = hash(c);
     if (index == -1) {
+		printf("Invalid entry: %c\n", c);
         return;
     }
     if (tree->ptr->branches == NULL) {
-        tree->ptr->branches = (Node **) calloc(36, sizeof(Node*));
+        tree->ptr->branches = (Node **) calloc(38, sizeof(Node*));
     }
     if (tree->ptr->branches[index] == NULL) {
         tree->ptr->branches[index] = (Node *) calloc(1, sizeof(Node));
         tree->ptr->branches[index]->letter = tolower(c);
         tree->ptr = tree->ptr->branches[index];
+		printf("[%lx]\n",(long)&(tree->ptr));
     } else {
         tree->ptr = tree->ptr->branches[index];
     }
@@ -44,7 +50,7 @@ void traverse(treeRoot *tree, char c){
 void freeBranches(Node *curr) {
     int i;
     if (curr->branches != NULL) {
-        for (i = 0; i < 36; i++) {
+        for (i = 0; i < 38; i++) {
             if (curr->branches[i] != NULL) {
                 freeBranches(curr->branches[i]);
             }

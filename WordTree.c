@@ -12,7 +12,6 @@ WordTree *WTCreate(char *filename) {
     }
     tree = malloc(sizeof(WordTree));
     tree->root = treeInit();
-    tree->root->ptr->freak = FLCreate();
     while ((c = fgetc(fp)) != EOF) {
         if (c == '<') {
             int length = 0, valid = 1;
@@ -20,13 +19,16 @@ WordTree *WTCreate(char *filename) {
             /* get the next word */
             while ((c = fgetc(fp)) != '>');
             fgetc(fp);
-			printf("Word: ");
+			printf("\nWord: \n");
             while ((c = fgetc(fp)) != '\n') {
                 insertNode(tree->root, c);
-				printf("%c", c);
+				printf("%c, %lx\n", c, (long)tree->root->ptr);
             }
 			printf("\n");
             fgetc(fp);
+			if (tree->root->ptr->freak == NULL) {
+	    		tree->root->ptr->freak = FLCreate();
+			}
             /* start reading the filenames */
             while ((c = fgetc(fp)) != '<') {
                 if (c == ' ' || c == '\n') {
@@ -41,7 +43,7 @@ WordTree *WTCreate(char *filename) {
                             }
                             filename[length] = '\0';
                             FLInsert(tree->root->ptr->freak, filename);
-							printf("Inserted: %s\n", filename);
+							printf("Inserted: %s, %lx\n", tree->root->ptr->freak->last->filename, (long)tree->root->ptr);
                         }
                         valid ^= 1;
                         length = 0;
@@ -63,6 +65,7 @@ WordTree *WTCreate(char *filename) {
                     length++;
                 }
             }
+			tree->root->ptr = tree->root->root;
             while ((c = fgetc(fp)) != '>');
         }
     }
@@ -71,6 +74,7 @@ WordTree *WTCreate(char *filename) {
         next = ptr->next;
         free(ptr);
     }
+	tree->root->ptr = tree->root->root;
     return tree;
 }
 
@@ -80,8 +84,12 @@ void WTTraverse(WordTree *tree, char c) {
 
 FreqNode *getFileNames(WordTree *tree) {
 	FreqNode *list = tree->root->ptr->freak->first;
-	tree->root->ptr = NULL;
+	tree->root->ptr = tree->root->root;
 	return list;
+}
+
+void resetPointer(WordTree *tree) {
+	tree->root->ptr = tree->root->root;
 }
 
 void WTDestroy(WordTree *tree) {
