@@ -6,7 +6,7 @@
 
 <list> antartica
 
-./testdir/text2.txt 1
+./testdir/testdir2/text3.txt
 
 </list>
 

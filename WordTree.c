@@ -19,12 +19,9 @@ WordTree *WTCreate(char *filename) {
             /* get the next word */
             while ((c = fgetc(fp)) != '>');
             fgetc(fp);
-			printf("\nWord: \n");
             while ((c = fgetc(fp)) != '\n') {
                 insertNode(tree->root, c);
-				printf("%c, %lx\n", c, (long)tree->root->ptr);
             }
-			printf("\n");
             fgetc(fp);
 			if (tree->root->ptr->freak == NULL) {
 	    		tree->root->ptr->freak = FLCreate();
@@ -43,7 +40,6 @@ WordTree *WTCreate(char *filename) {
                             }
                             filename[length] = '\0';
                             FLInsert(tree->root->ptr->freak, filename);
-							printf("Inserted: %s, %lx\n", tree->root->ptr->freak->last->filename, (long)tree->root->ptr);
                         }
                         valid ^= 1;
                         length = 0;
@@ -54,14 +50,12 @@ WordTree *WTCreate(char *filename) {
                     if (root == NULL) {
                         root = malloc(sizeof(struct WORDNODE));
                         curr = root;
-                    	curr->c = c;
-                    } else {
-	                    if (curr->next == NULL) {
-    	                	curr->next = malloc(sizeof(struct WORDNODE));
-        	            }
-						curr->c = c;
-                    	curr = curr->next;
-					}
+                    }
+                    curr->c = c;
+	                if (curr->next == NULL) {
+    	            	curr->next = malloc(sizeof(struct WORDNODE));
+        	        }
+                    curr = curr->next;
                     length++;
                 }
             }
