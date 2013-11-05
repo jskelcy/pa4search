@@ -54,13 +54,14 @@ WordTree *WTCreate(char *filename) {
                     if (root == NULL) {
                         root = malloc(sizeof(struct WORDNODE));
                         curr = root;
+                    	curr->c = c;
                     } else {
 	                    if (curr->next == NULL) {
     	                	curr->next = malloc(sizeof(struct WORDNODE));
         	            }
+						curr->c = c;
                     	curr = curr->next;
 					}
-					curr->c = c;
                     length++;
                 }
             }
